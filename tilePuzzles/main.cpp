@@ -31,11 +31,10 @@ int main(int argc, char** argv)
 {
     int i = 2;
     int j;
-    int initialState[9] = {5,4,6,3,2,7,0,1,8}; //Estado inicial
+    int initialState[9] = {3,0,8,7,5,2,1,6,4}; //Estado inicial
     
     
     /*Leitura de entradas*/
-    printf("%s",argv[1]);
     char* metodo = argv[1];
  
 //    while(i<argc)
@@ -49,7 +48,8 @@ int main(int argc, char** argv)
 //        }
         nodo atual = CriaInicial(initialState);//cria o inicial
         /*Execucao do metodo(raiz)*/
-        bfsTree(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        //bfsTree(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        idfs(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
 //    }
     
 }
