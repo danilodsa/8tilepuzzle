@@ -64,6 +64,7 @@ int isGoal(nodo n)
     return 1;
 }
 
+/*Calcula ID do nodo atraves do estado*/
 int calcId(int state[9])
 {
     int soma = 0;
@@ -87,12 +88,7 @@ void imprimeNodo(nodo n)
     printf("\n\t%d %d %d\n", n->estado[0], n->estado[1], n->estado[2]);
     printf("\t%d %d %d\n", n->estado[3], n->estado[4], n->estado[5]);
     printf("\t%d %d %d\n\n", n->estado[6], n->estado[7], n->estado[8]);
-//    printf("Digite uma tecla para mover o blank:\n");
-//    printf("w - cima\n");
-//    printf("a - esquerda\n");
-//    printf("d - direita\n");
-//    printf("s - baixo\n");
-//    printf("0 - Sair\n");
+
 }
 
 //faz um for até encontrar o blank

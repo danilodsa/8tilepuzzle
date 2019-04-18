@@ -4,6 +4,7 @@
 #include <set>
 #include <cstring> 
 #include "nodo.hpp"
+#include "search.hpp"
 
 using namespace std;
 
@@ -74,5 +75,53 @@ int bfsTree(nodo root)
         }
    }
     /*Nao tem solucao*/
+    return 1;
+}
+
+int depth_limited_search(nodo root, int limit)
+{
+    /*Verifica se a raiz e GOAL*/
+    if(isGoal(root))
+    {
+        return 0;
+    }
+    
+    if(limit > 0)
+    {
+        /*Para cada nodo filho gerado*/
+        for(int i=0; i<4;i++)
+        {
+            nodo nLinha = move(root,i);
+            if(nLinha == NULL)
+            {
+                continue;
+            }
+            else
+            {
+                /*Recursao*/
+                int solution = depth_limited_search(nLinha,(limit-1));
+                free(nLinha);
+                if(solution == 0)
+                {
+                    return 0;
+                }
+            }
+        }
+    }
+    return 1;
+}
+
+
+int idfs(nodo root)
+{
+    for(int limit=0; limit<10; limit++)
+    {
+        printf("limit %d \n",limit);
+        int solution = depth_limited_search(root,limit);
+        if(solution == 0)
+        {
+            return 0;
+        }
+    }
     return 1;
 }
