@@ -10,6 +10,7 @@
 
 using namespace std;
 
+/**************************BFS******************************/
 int bfsTree(nodo root)
 {
     /*cria closed set*/
@@ -73,6 +74,8 @@ int bfsTree(nodo root)
     return 1;
 }
 
+/**************************IDFS******************************/
+
 int depth_limited_search(nodo root, int limit)
 {
     /*Verifica se a raiz e GOAL*/
@@ -121,6 +124,8 @@ int idfs(nodo root)
     return 1;
 }
 
+/**************************ASTAR******************************/
+
 class compare
 {
   bool reverse;
@@ -152,6 +157,8 @@ public:
 
 int astar(nodo root)
 {
+    int gen = 0;
+    int exp = 0;
     /*cria closed set*/
     unordered_map<int,nodo> closed;
     /***********/
@@ -173,11 +180,15 @@ int astar(nodo root)
             if(isGoal(n))
             {
                 imprimeNodo(n);
+                printf("Nodos Gerados: %d\n", gen);
+                printf("Nodos Expandidos: %d", exp);
                 return 0;
             }
+            exp++;
             for(int i=0; i<4; i++)
             {
                 nodo nLinha = move(n,i);
+                gen++;
                 if(nLinha != NULL)
                 {
                 if(nLinha->h < INFINITY)
@@ -191,13 +202,18 @@ int astar(nodo root)
     }
     
 }
+
+/**************************IDASTAR******************************/
+
 int idastar(nodo root)
 {
     int fLimit = root->h;
     while(fLimit != INFINITY)
     {
-        int solution = idastar_recursive_serach(root,&fLimit);
-        if(solution)
+        pair<int,int> ret = idastar_recursive_serach(root,fLimit);
+        fLimit = ret.first;
+        int solution = ret.second;
+        if(solution != NULL)
         {
             return 0;
         }
@@ -206,20 +222,24 @@ int idastar(nodo root)
         
 }
 
-int idastar_recursive_serach(nodo n,int *fLimit)
+pair<int,int> idastar_recursive_serach(nodo n,int fLimit)
 {
     int fn = n->g + n->h;
+    
     if(fn > fLimit)
     {
         fLimit = fn;
-        return 1;
+        return make_pair(fn,NULL);
     }
+
     if(isGoal(n))
     {
-        return 0;
+        imprimeNodo(n);
+        return make_pair(NULL,0);
     }
+    
     int nextLimit = INFINITY;
-    int recLimit = INFINITY;
+    /*Para cada filho GERADO*/
     for(int i=0; i<4; i++)
     {
         nodo nLinha = move(n,i);
@@ -227,14 +247,17 @@ int idastar_recursive_serach(nodo n,int *fLimit)
         {
             if(nLinha->h < INFINITY)
             {
-                recLimit, solution = idastar_recursive_serach(nLinha,fLimit);
+                pair<int,int> ret = idastar_recursive_serach(nLinha,fLimit);
+                int recLimit = ret.first;
+                int solution = ret.second;
                 if (solution == 0)
                 {
-                    return 0;
+                    return make_pair(NULL,solution);
                 }
                 nextLimit = min(nextLimit,recLimit);
+                
             }
         }
     }
-    return 1;
+    return make_pair(nextLimit,NULL);
 }

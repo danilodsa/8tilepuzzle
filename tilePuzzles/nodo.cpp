@@ -21,7 +21,8 @@ nodo CriaInicial(int state[9])
         ini->filhos[1] = NULL;
         ini->filhos[2] = NULL;
         ini->filhos[3] = NULL;
-                
+        ini->h = rand() % 100;
+        ini->g = rand() % 100;
         return ini;
     }
     /*Se nao criar o nodo*/
@@ -44,7 +45,8 @@ nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho)//p1 e p2 devem tro
 
             novo->id = calcId(novo->estado);
             
-            //novo->h = rand() % 100;
+            novo->h = rand() % 100;
+            novo->g = rand() % 100;
             
             return novo;
         }

@@ -51,6 +51,7 @@ int main(int argc, char** argv)
         bfsTree(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
         idfs(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
         astar(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        idastar(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
 //    }
     
 }
