@@ -17,8 +17,9 @@
 int bfsTree(nodo root);
 int idfs(nodo root);
 int depth_limited_search(nodo root, int limit);
-//int astar(nodo root);
-//int idastar(nodo root);
+int astar(nodo root);
+int idastar(nodo root);
+int idastar_recursive_serach(nodo n,int *fLimit);
 //int gbfs(nodo root);
 
 #endif /* SEARCH_HPP */

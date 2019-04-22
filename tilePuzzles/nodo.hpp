@@ -19,6 +19,8 @@ struct Nodo
 {
     int id;
     int estado[9];
+    int h;
+    int g;
     nodo pai;
     nodo filhos[4];
 };
@@ -26,7 +28,7 @@ struct Nodo
 int calcId(int state[9]);
 nodo move(nodo pai, int opc);
 int verificaPosicaoBlank(nodo atual);
-void mostraMenu(nodo atual);
+void imprimeNodo(nodo atual);
 int isGoal(nodo n);
 nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho);
 nodo CriaInicial(int state[9]);

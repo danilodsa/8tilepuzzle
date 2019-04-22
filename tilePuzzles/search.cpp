@@ -1,10 +1,12 @@
 #include <cstdlib>
 #include <iostream>
 #include <unordered_map>
+#include <queue>
 #include <set>
-#include <cstring> 
+#include <vector>
 #include "nodo.hpp"
 #include "search.hpp"
+#include <cmath>
 
 using namespace std;
 
@@ -13,9 +15,6 @@ int bfsTree(nodo root)
     /*cria closed set*/
     unordered_map<int,nodo> closed;
     /***********/
-    
-
-    
     /*Verifica se a raiz nao e GOAL*/
     if(isGoal(root))
     {
@@ -60,11 +59,7 @@ int bfsTree(nodo root)
                     /*Verifica se o nodo gerado é GOAL*/
                     if(isGoal(nLinha))
                     {
-                        printf("GOAL ");
-                        for(int j=0;j<9;j++)
-                        {
-                            printf("%d ",nLinha->estado[j]);
-                        }
+                        imprimeNodo(nLinha);
                         printf("\nnodos gerados %d\n",geradosCount);
                         printf("nodos expandidos %d\n",expandidosCount);
                         return 0;
@@ -121,6 +116,124 @@ int idfs(nodo root)
         if(solution == 0)
         {
             return 0;
+        }
+    }
+    return 1;
+}
+
+class compare
+{
+  bool reverse;
+public:
+  compare(const bool& revparam=false)
+    {reverse=revparam;}
+  bool operator() (const nodo lhs, const nodo rhs) const
+  {
+//    if (reverse) return (lhs>rhs);
+//    else return (lhs<rhs);
+        int lhsF = lhs->g + lhs->h;
+        int rhsF = rhs->g + rhs->h;
+
+        if(lhsF > rhsF){
+            return 0;
+        }
+        else if(lhsF < rhsF){
+            return 1;
+        }
+        else if(lhs->h > rhs->h){
+            return 0;
+        }
+        else{
+            return 1;
+        }      
+  }
+};
+
+
+int astar(nodo root)
+{
+    /*cria closed set*/
+    unordered_map<int,nodo> closed;
+    /***********/
+    /*cria open set*/
+    priority_queue<nodo,vector<nodo>,compare> open;
+    /**************/    
+    if(root->h < INFINITY)
+    {
+        open.push(root);
+    }
+    while(!open.empty())
+    {
+        nodo n = open.top();
+        open.pop();
+        
+        if(closed.count(n->id) <= 0)
+        {
+            closed.emplace(n->id,n);
+            if(isGoal(n))
+            {
+                imprimeNodo(n);
+                return 0;
+            }
+            for(int i=0; i<4; i++)
+            {
+                nodo nLinha = move(n,i);
+                if(nLinha != NULL)
+                {
+                if(nLinha->h < INFINITY)
+                    {
+                        open.push(nLinha);
+                    }
+                }
+            }
+        }
+                
+    }
+    
+}
+int idastar(nodo root)
+{
+    int fLimit = root->h;
+    while(fLimit != INFINITY)
+    {
+        int solution = idastar_recursive_serach(root,&fLimit);
+        if(solution)
+        {
+            return 0;
+        }
+    }
+    return 1;
+        
+}
+
+int idastar_recursive_serach(nodo n,int *fLimit)
+{
+    int fn = n->g + n->h;
+    if(fn > fLimit)
+    {
+        fLimit = fn;
+        return 1;
+    }
+    if(isGoal(n))
+    {
+        return 0;
+    }
+    int nextLimit = INFINITY;
+    int recLimit = INFINITY;
+    for(int i=0; i<4; i++)
+    {
+        nodo nLinha = move(n,i);
+        if(nLinha != NULL)
+        {
+            if(nLinha->h < INFINITY)
+            {
+                recLimit, solution = idastar_recursive_serach(nLinha,fLimit);
+                if (solution == 0)
+                {
+                    return 0;
+                }
+                nextLimit = min(nextLimit,recLimit);
+            }
         }
     }
     return 1;

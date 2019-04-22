@@ -44,6 +44,8 @@ nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho)//p1 e p2 devem tro
 
             novo->id = calcId(novo->estado);
             
+            //novo->h = rand() % 100;
+            
             return novo;
         }
         exit(1);
@@ -143,4 +145,39 @@ nodo move(nodo pai, int opc)
         }
     }
     return atual;
+}
+
+int manhattan(int state[9])
+{
+    int goal[9] = {1,2,3,4,5,6,7,8,0};
+    int linha = -1;
+    int coluna = -1;
+    
+    for(int i=0; i<9; i++)
+    {
+        if(i < 3) /*linha 1*/
+        {
+            linha = 1;
+        }
+        else if(i < 6) /*linha 2*/
+        {
+            linha = 2;
+        }
+        else if(i < 9) /*linha 3*/
+        {
+            linha = 3;
+        }
+        if(i%3 == 0)
+        {
+            coluna = 1;
+        }
+        else if(i%3 == 1)
+        {
+            coluna = 2;
+        }
+        else if(i%3 == 2)
+        {
+            coluna = 3;
+        }
+    }
 }

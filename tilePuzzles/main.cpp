@@ -31,7 +31,7 @@ int main(int argc, char** argv)
 {
     int i = 2;
     int j;
-    int initialState[9] = {3,0,8,7,5,2,1,6,4}; //Estado inicial
+    int initialState[9] = {3,5,7,8,1,0,2,6,4}; //Estado inicial
     
     
     /*Leitura de entradas*/
@@ -48,8 +48,9 @@ int main(int argc, char** argv)
 //        }
         nodo atual = CriaInicial(initialState);//cria o inicial
         /*Execucao do metodo(raiz)*/
-        //bfsTree(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        bfsTree(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
         idfs(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        astar(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
 //    }
     
 }
