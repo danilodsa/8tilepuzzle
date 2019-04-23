@@ -16,7 +16,7 @@
 
 int bfsGraph(nodo root);
 int idfs(nodo root);
-int depth_limited_search(nodo n, int limit);
+int depth_limited_search(nodo n, int limit, int &exp);
 int astar(nodo root);
 int idastar(nodo root);
 std::pair<int,int> idastar_recursive_search(nodo n,int fLimit);

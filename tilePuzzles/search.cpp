@@ -14,7 +14,8 @@ using namespace std;
 /**************************BFS******************************/
 int bfsGraph(nodo root)
 {
-    clock_t start, end, total;
+    clock_t start, end;
+    double total;
     start = clock();
     int geradosCount = 0;
     int exp = 0;    
@@ -22,7 +23,7 @@ int bfsGraph(nodo root)
     unordered_map<int,nodo> closed;
     /***********/
     /*Verifica se a raiz nao e GOAL*/
-    if(isGoal(root))
+    if(isGoal(root))            
     {
         end = clock();
         total = (double)(end - start)/CLOCKS_PER_SEC;
@@ -83,20 +84,30 @@ int bfsGraph(nodo root)
 /**************************IDFS******************************/
 int idfs(nodo root)
 {
+    clock_t start, end;
+    double total;
+    start = clock();
+    int geradosCount = 0;
+    int exp = 0;
+    
     for(int limit=0; limit<1000; limit++)
     {
         printf("limit %d \n",limit);
-        int solution = depth_limited_search(root,limit);
+        int solution = depth_limited_search(root,limit, exp);
         if(solution == 1)
         {
+            end = clock();
+            total = (double)(end - start)/CLOCKS_PER_SEC;
+            printf("%d,%d,%f,%d,%d",exp,0,total,0,root->h);                        
+            
             return 1;
         }
-    }
+    }            
     return 0;
 }
 
-
-int depth_limited_search(nodo n, int limit)
+            
+int depth_limited_search(nodo n, int limit, int &exp)
 {
     /*Verifica se e GOAL*/
     if(isGoal(n))
@@ -106,6 +117,7 @@ int depth_limited_search(nodo n, int limit)
     
     if(limit > 0)
     {
+        exp++;
         /*Para cada nodo filho gerado*/
         for(int i=0; i<4;i++)
         {
@@ -113,7 +125,7 @@ int depth_limited_search(nodo n, int limit)
             if(nLinha != NULL)
             {
                 /*Recursao*/
-                int solution = depth_limited_search(nLinha,(limit-1));
+                int solution = depth_limited_search(nLinha,(limit-1), exp);
                 free(nLinha);
                 if(solution == 1)
                 {

@@ -13,7 +13,7 @@ nodo CriaInicial(int state[9])
     
     if(ini != NULL)
     {
-        /*copia pai pro filho*/
+        /*copia pai clock_t start = clock();pro filho*/
         memcpy(ini->estado, state, sizeof(int) * 9);
         
         ini->id = calcId(state);
