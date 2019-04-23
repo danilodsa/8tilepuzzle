@@ -11,7 +11,7 @@
 using namespace std;
 
 /**************************BFS******************************/
-int bfsTree(nodo root)
+int bfsGraph(nodo root)
 {
     /*cria closed set*/
     unordered_map<int,nodo> closed;
@@ -213,7 +213,7 @@ int idastar(nodo root)
         pair<int,int> ret = idastar_recursive_serach(root,fLimit);
         fLimit = ret.first;
         int solution = ret.second;
-        if(solution != NULL)
+        if(solution != 0)
         {
             return 0;
         }
@@ -238,7 +238,7 @@ pair<int,int> idastar_recursive_serach(nodo n,int fLimit)
         return make_pair(NULL,0);
     }
     
-    int nextLimit = INFINITY;
+    int  nextLimit = INFINITY;
     /*Para cada filho GERADO*/
     for(int i=0; i<4; i++)
     {
