@@ -17,22 +17,22 @@
 typedef struct Nodo *nodo;
 struct Nodo
 {
-    int id;
-    int estado[9];
+    long unsigned int id;
+    int estado[16];
     int h;
     int g;
     nodo pai;
     nodo filhos[4];
 };
 
-int calcId(int state[15]);
+long unsigned int calcId(int state[16]);
 nodo move(nodo pai, int opc);
 int verificaPosicaoBlank(nodo atual);
 void imprimeNodo(nodo atual);
 int isGoal(nodo n);
 nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho);
-nodo CriaInicial(int state[15]);
-int manhattan(int vet[15]);
+nodo CriaInicial(int state[16]);
+int manhattan(int vet[16]);
 int extractPath(nodo n);
 #endif /* NEWFILE_HPP */
 
