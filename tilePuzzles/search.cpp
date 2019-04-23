@@ -7,22 +7,28 @@
 #include "nodo.hpp"
 #include "search.hpp"
 #include <cmath>
+#include <time.h>
 
 using namespace std;
 
 /**************************BFS******************************/
 int bfsGraph(nodo root)
 {
+    clock_t start, end, total;
+    start = clock();
+    int geradosCount = 0;
+    int exp = 0;    
     /*cria closed set*/
     unordered_map<int,nodo> closed;
     /***********/
     /*Verifica se a raiz nao e GOAL*/
     if(isGoal(root))
     {
+        end = clock();
+        total = (double)(end - start)/CLOCKS_PER_SEC;
+        printf("%d,%d,%f,%d,%d",exp,0,total,0,root->h);
         return 1;
     }
-    int geradosCount = 0;
-    int expandidosCount = 0;
     nodo nLinha = NULL;
     
     /*cria open set*/
@@ -40,7 +46,7 @@ int bfsGraph(nodo root)
         /*Insere nodo em closed*/
         closed.emplace(n->id,n);
         /*Expande nodo*/
-        expandidosCount++;
+        exp++;
         for(int i=0;i<4;i++)
         {
             nLinha = move(n,i);
@@ -60,9 +66,9 @@ int bfsGraph(nodo root)
                     /*Verifica se o nodo gerado é GOAL*/
                     if(isGoal(nLinha))
                     {
-                        imprimeNodo(nLinha);
-                        printf("\nnodos gerados %d\n",geradosCount);
-                        printf("nodos expandidos %d\n",expandidosCount);
+                        end = clock();
+                        total = (double)(end - start)/CLOCKS_PER_SEC;
+                        printf("%d,%d,%f,%d,%d",exp,0,total,0,root->h);                        
                         return 0;
                     }
                 }
@@ -75,13 +81,27 @@ int bfsGraph(nodo root)
 }
 
 /**************************IDFS******************************/
-
-int depth_limited_search(nodo root, int limit)
+int idfs(nodo root)
 {
-    /*Verifica se a raiz e GOAL*/
-    if(isGoal(root))
+    for(int limit=0; limit<1000; limit++)
     {
-        return 0;
+        printf("limit %d \n",limit);
+        int solution = depth_limited_search(root,limit);
+        if(solution == 1)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+
+int depth_limited_search(nodo n, int limit)
+{
+    /*Verifica se e GOAL*/
+    if(isGoal(n))
+    {
+        return 1;
     }
     
     if(limit > 0)
@@ -89,39 +109,20 @@ int depth_limited_search(nodo root, int limit)
         /*Para cada nodo filho gerado*/
         for(int i=0; i<4;i++)
         {
-            nodo nLinha = move(root,i);
-            if(nLinha == NULL)
-            {
-                continue;
-            }
-            else
+            nodo nLinha = move(n,i);
+            if(nLinha != NULL)
             {
                 /*Recursao*/
                 int solution = depth_limited_search(nLinha,(limit-1));
                 free(nLinha);
-                if(solution == 0)
+                if(solution == 1)
                 {
-                    return 0;
+                    return 1;
                 }
             }
         }
     }
-    return 1;
-}
-
-
-int idfs(nodo root)
-{
-    for(int limit=0; limit<10; limit++)
-    {
-        printf("limit %d \n",limit);
-        int solution = depth_limited_search(root,limit);
-        if(solution == 0)
-        {
-            return 0;
-        }
-    }
-    return 1;
+    return 0;
 }
 
 /**************************ASTAR******************************/
@@ -157,6 +158,7 @@ public:
 
 int astar(nodo root)
 {
+    
     int gen = 0;
     int exp = 0;
     /*cria closed set*/
@@ -180,23 +182,25 @@ int astar(nodo root)
             if(isGoal(n))
             {
                 imprimeNodo(n);
+                int count = extractPath(n);
+                printf("Comprimento: %d\n", count);
                 printf("Nodos Gerados: %d\n", gen);
                 printf("Nodos Expandidos: %d", exp);
                 return 0;
             }
-            exp++;
             for(int i=0; i<4; i++)
             {
                 nodo nLinha = move(n,i);
-                gen++;
                 if(nLinha != NULL)
                 {
-                if(nLinha->h < INFINITY)
+                    gen++;
+                    if(nLinha->h < INFINITY)
                     {
                         open.push(nLinha);
                     }
                 }
             }
+            exp++;
         }
                 
     }
@@ -210,32 +214,31 @@ int idastar(nodo root)
     int fLimit = root->h;
     while(fLimit != INFINITY)
     {
-        pair<int,int> ret = idastar_recursive_serach(root,fLimit);
+        pair<int,int> ret = idastar_recursive_search(root,fLimit);
         fLimit = ret.first;
         int solution = ret.second;
         if(solution != 0)
         {
-            return 0;
+            return 1;
         }
     }
-    return 1;
+    return 0;
         
 }
 
-pair<int,int> idastar_recursive_serach(nodo n,int fLimit)
+pair<int,int> idastar_recursive_search(nodo n,int fLimit)
 {
     int fn = n->g + n->h;
     
     if(fn > fLimit)
     {
-        fLimit = fn;
-        return make_pair(fn,NULL);
+        return make_pair(fn,0);
     }
 
     if(isGoal(n))
     {
         imprimeNodo(n);
-        return make_pair(NULL,0);
+        return make_pair(NULL,1);
     }
     
     int  nextLimit = INFINITY;
@@ -247,10 +250,10 @@ pair<int,int> idastar_recursive_serach(nodo n,int fLimit)
         {
             if(nLinha->h < INFINITY)
             {
-                pair<int,int> ret = idastar_recursive_serach(nLinha,fLimit);
+                pair<int,int> ret = idastar_recursive_search(nLinha,fLimit);
                 int recLimit = ret.first;
                 int solution = ret.second;
-                if (solution == 0)
+                if (solution == 1)
                 {
                     return make_pair(NULL,solution);
                 }

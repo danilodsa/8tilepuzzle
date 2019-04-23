@@ -29,9 +29,10 @@ using namespace std;
 /*MAIN*/
 int main(int argc, char** argv)
 {
+   
     int i = 2;
     int j;
-    int initialState[9] = {0,6,1,7,4,2,3,8,5}; //Estado inicial
+    int initialState[9] = {2,4,7,0,3,6,8,1,5}; //Estado inicial
     
     
     /*Leitura de entradas*/
@@ -46,13 +47,14 @@ int main(int argc, char** argv)
 //            j++;
 //            i++;
 //        }
-        nodo atual = CriaInicial(initialState);//cria o inicial
+        nodo inicial = CriaInicial(initialState);//cria o inicial
         /*Execucao do metodo(raiz)*/
-        //bfsGraph(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
-        //idfs(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
-        //astar(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
-        //idastar(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
-        gbfs(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        bfsGraph(inicial) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        //idfs(inicial) == 1 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        //astar(inicial) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        //idastar(inicial) == 1 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        //gbfs(inicial) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
 //    }
-    
+
+
 }

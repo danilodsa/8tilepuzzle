@@ -21,8 +21,8 @@ nodo CriaInicial(int state[9])
         ini->filhos[1] = NULL;
         ini->filhos[2] = NULL;
         ini->filhos[3] = NULL;
-        ini->h = rand() % 100;
-        ini->g = rand() % 100;
+        ini->h = manhattan(state);
+        ini->g = 0;
         return ini;
     }
     /*Se nao criar o nodo*/
@@ -45,8 +45,8 @@ nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho)//p1 e p2 devem tro
 
             novo->id = calcId(novo->estado);
             
-            novo->h = rand() % 100;
-            novo->g = rand() % 100;
+            novo->h = manhattan(novo->estado);
+            novo->g = novo->pai->g + 1;
             
             return novo;
         }
@@ -56,7 +56,7 @@ nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho)//p1 e p2 devem tro
 int isGoal(nodo n)
 {
     
-    int goal[9] = {1,2,3,4,5,6,7,8,0};
+    int goal[9] = {0,1,2,3,4,5,6,7,8};
     
     for(int i=0; i<9; i++)
     {
@@ -149,47 +149,31 @@ nodo move(nodo pai, int opc)
     return atual;
 }
 
-int manhattan(int state[9])
+int extractPath(nodo n)
 {
-    int goal[9] = {1,2,3,4,5,6,7,8,0};
-    int linha = -1;
-    int coluna = -1;
-    
-    for(int i=0; i<9; i++)
+    int count = 0;
+    while(n->pai != NULL)
     {
-        if(i < 3) /*linha 1*/
-        {
-            linha = 1;
-        }
-        else if(i < 6) /*linha 2*/
-        {
-            linha = 2;
-        }
-        else if(i < 9) /*linha 3*/
-        {
-            linha = 3;
-        }
-        if(i%3 == 0)
-        {
-            coluna = 1;
-        }
-        else if(i%3 == 1)
-        {
-            coluna = 2;
-        }
-        else if(i%3 == 2)
-        {
-            coluna = 3;
-        }
+        count++;
+        n = n->pai;
     }
+    return count;
 }
 
-/*Calculo de H*/
-int teste(int num, int pos)
-{
-	num--;
-	pos--;
 
-	int x = abs(num / 3 - pos / 3) + abs(num % 3 - pos % 3);
-	printf("%d, %d, resultado:%d\n", num+1, pos+1, x);
+
+/***********************HEURISICA***********************/
+int manhattanElementoUnico(int num, int pos)
+{
+	return (abs(num / 3 - pos / 3) + abs(num % 3 - pos % 3));
+	//printf("%d, %d, resultado:%d\n", num+1, pos+1, x);
+}
+
+int manhattan(int vet[9])
+{
+	int soma = 0;
+	for (int i = 0; i < 9; i++)
+		if (vet[i] != 0)
+			soma += manhattanElementoUnico(vet[i], i);
+	return soma;
 }
