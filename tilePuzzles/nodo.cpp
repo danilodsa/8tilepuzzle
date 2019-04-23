@@ -183,3 +183,13 @@ int manhattan(int state[9])
         }
     }
 }
+
+/*Calculo de H*/
+int teste(int num, int pos)
+{
+	num--;
+	pos--;
+
+	int x = abs(num / 3 - pos / 3) + abs(num % 3 - pos % 3);
+	printf("%d, %d, resultado:%d\n", num+1, pos+1, x);
+}

@@ -32,5 +32,6 @@ void imprimeNodo(nodo atual);
 int isGoal(nodo n);
 nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho);
 nodo CriaInicial(int state[9]);
+
 #endif /* NEWFILE_HPP */
 

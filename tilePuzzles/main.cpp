@@ -31,7 +31,7 @@ int main(int argc, char** argv)
 {
     int i = 2;
     int j;
-    int initialState[9] = {3,5,7,8,1,0,2,6,4}; //Estado inicial
+    int initialState[9] = {0,6,1,7,4,2,3,8,5}; //Estado inicial
     
     
     /*Leitura de entradas*/
@@ -48,10 +48,11 @@ int main(int argc, char** argv)
 //        }
         nodo atual = CriaInicial(initialState);//cria o inicial
         /*Execucao do metodo(raiz)*/
-        bfsTree(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
-        idfs(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
-        astar(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
-        idastar(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        //bfsGraph(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        //idfs(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        //astar(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        //idastar(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+        gbfs(atual) == 0 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
 //    }
     
 }

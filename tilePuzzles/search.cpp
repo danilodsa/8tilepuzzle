@@ -126,11 +126,11 @@ int idfs(nodo root)
 
 /**************************ASTAR******************************/
 
-class compare
+class compareForAStar
 {
   bool reverse;
 public:
-  compare(const bool& revparam=false)
+  compareForAStar(const bool& revparam=false)
     {reverse=revparam;}
   bool operator() (const nodo lhs, const nodo rhs) const
   {
@@ -163,7 +163,7 @@ int astar(nodo root)
     unordered_map<int,nodo> closed;
     /***********/
     /*cria open set*/
-    priority_queue<nodo,vector<nodo>,compare> open;
+    priority_queue<nodo,vector<nodo>,compareForAStar> open;
     /**************/    
     if(root->h < INFINITY)
     {
@@ -260,4 +260,73 @@ pair<int,int> idastar_recursive_serach(nodo n,int fLimit)
         }
     }
     return make_pair(nextLimit,NULL);
+}
+
+/**************************GBFS******************************/
+
+class compareForGBFS
+{
+  bool reverse;
+public:
+  compareForGBFS(const bool& revparam=false)
+    {reverse=revparam;}
+  bool operator() (const nodo lhs, const nodo rhs) const
+  {
+//    if (reverse) return (lhs>rhs);
+//    else return (lhs<rhs);
+        int lhsF = lhs->h;
+        int rhsF = rhs->h;
+
+        if(lhsF > rhsF){
+            return 0;
+        }
+        else if(lhsF < rhsF){
+            return 1;
+        }
+        else{
+            return 1;
+        }      
+  }
+};
+
+
+int gbfs(nodo root)
+{
+    /*open set*/
+    priority_queue<nodo,vector<nodo>,compareForGBFS> open;
+    
+    /*closed set*/
+    unordered_map<int,nodo> closed;
+    
+    if(isGoal(root))
+    {
+        return 0;
+    }
+    open.push(root);
+    
+    while(!open.empty())
+    {
+        nodo n = open.top();
+        open.pop();
+        if(closed.count(n->id) <= 0)
+        {
+            closed.emplace(n->id,n);
+            for(int i=0;i<4;i++)
+            {
+                nodo nLinha = move(n,i);
+                if(nLinha != NULL)
+                {
+                    if(isGoal(nLinha))
+                    {
+                        imprimeNodo(nLinha);
+                        return 0;
+                    }
+                    open.push(nLinha);
+                }
+            }
+        }
+
+    }
+    return 1;
+    
 }

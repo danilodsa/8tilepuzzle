@@ -14,13 +14,13 @@
 #ifndef SEARCH_HPP
 #define SEARCH_HPP
 
-int bfsTree(nodo root);
+int bfsGraph(nodo root);
 int idfs(nodo root);
 int depth_limited_search(nodo root, int limit);
 int astar(nodo root);
 int idastar(nodo root);
 std::pair<int,int> idastar_recursive_serach(nodo n,int fLimit);
-//int gbfs(nodo root);
+int gbfs(nodo root);
 
 #endif /* SEARCH_HPP */
 
