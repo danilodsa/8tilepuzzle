@@ -14,6 +14,23 @@
 #ifndef SEARCH_HPP
 #define SEARCH_HPP
 
+typedef struct Relatorio *relat;
+struct Relatorio
+{
+    //exp, comp, tempo, vMedio, hIni, start, end
+    int exp;
+    int comp;
+    double tempo;
+    int vMedio;
+    int hIni;
+    double start;
+    double end;
+};
+
+relat relCria(nodo root);
+void relCalculaVMedio(relat rel, nodo n);
+void relFinaliza(relat rel, nodo final);
+
 int bfsGraph(nodo root);
 int idfs(nodo root);
 int depth_limited_search(nodo n, int limit);

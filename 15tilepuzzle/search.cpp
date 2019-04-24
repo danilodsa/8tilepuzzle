@@ -11,6 +11,55 @@
 
 using namespace std;
 
+/*************************Relatório*************************/
+relat relCria(nodo root)
+{
+    relat novo = (relat) malloc(sizeof(struct Relatorio));
+    
+    if(novo != NULL)
+    {
+        //exp, comp, tempo, vMedio, hIni, start, end
+        novo->exp=0;
+        novo->comp=0;
+        novo->tempo=0;
+        novo->vMedio=0;
+        novo->hIni = root->h;
+        novo->start= (double) clock();
+        novo->end=0;
+        
+        return novo;
+    }
+    /*Se nao criar o nodo*/
+    exit(1);
+}
+
+void relCalculaVMedio(relat rel, nodo n)
+{
+    if(n->pai!=NULL)
+        relCalculaVMedio(rel, n->pai);
+    //imprimeNodo(n);
+    rel->comp++;
+    rel->vMedio += n->h;
+}
+
+void relFinaliza(relat rel, nodo final)
+{
+    //finaliza o timer e calcula temcriaRelatoriopo total
+    rel->end = (double) clock();
+    rel->tempo = (double) (rel->end-rel->start)/CLOCKS_PER_SEC;
+    
+    //calcula vmedio e comp
+    //printf("Imprimindo Caminho percorrido.\n");
+    relCalculaVMedio(rel, final);
+    rel->comp--;//desconsiderando o pai do caminho
+    int x = extractPath(final);
+    printf("_#_%d\n",x);
+    rel->vMedio = rel->vMedio/rel->comp;
+    
+    //imprime relatório
+    printf("___e:%d, c:%d, t:%f, vm:%d, hi:%d\n", rel->exp, rel->comp, rel->tempo, rel->vMedio, rel->hIni);
+    //printf("%d, %d, %f, %d, %d", rel->exp, rel->comp, rel->tempo, rel->vMedio, rel->hIni);
+}
 
 /**************************ASTAR******************************/
 
@@ -45,8 +94,7 @@ public:
 
 int astar(nodo root)
 {
-    
-    int exp = 0;
+    relat rel = relCria(root);   
     /*cria closed set*/
     unordered_map<int,nodo> closed;
     /***********/
@@ -55,7 +103,7 @@ int astar(nodo root)
     /**************/    
     if(isGoal(root))
     {
-        /*IMPRIMIR dados*/
+        relFinaliza(rel, root);
         return 1;
     }
     if(root->h < INFINITY)
@@ -70,6 +118,7 @@ int astar(nodo root)
         if(closed.count(n->id) <= 0)
         {
             closed.emplace(n->id,n);
+            rel->exp++;
             for(int i=0; i<4; i++)
             {
                 nodo nLinha = move(n,i);
@@ -78,6 +127,7 @@ int astar(nodo root)
                     if(isGoal(nLinha))
                     {
                         /*IMPRIMIR dados*/
+                        relFinaliza(rel, nLinha);
                         return 1;
                     }
                     if(nLinha->h < INFINITY)
@@ -86,7 +136,6 @@ int astar(nodo root)
                     }
                 }
             }
-            exp++;
         }
                 
     }
