@@ -56,7 +56,7 @@ void relFinaliza(relat rel, nodo final)
     rel->vMedio = rel->vMedio/rel->comp;
     
     //imprime relatório
-    printf("___e:%d, c:%d, t:%f, vm:%d, hi:%d\n", rel->exp, rel->comp, rel->tempo, rel->vMedio, rel->hIni);
+    printf("___e:%d\t c:%d\t t:%f\t vm:%d\t hi:%d\n", rel->exp, rel->comp, rel->tempo, rel->vMedio, rel->hIni);
     //printf("%d, %d, %f, %d, %d", rel->exp, rel->comp, rel->tempo, rel->vMedio, rel->hIni);
 }
 
