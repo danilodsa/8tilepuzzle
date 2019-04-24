@@ -54,6 +54,10 @@ int astar(nodo root)
     /*cria open set*/
     priority_queue<nodo,vector<nodo>,compareForAStar> open;
     /**************/    
+    if(isGoal(root))
+    {
+        return 1;
+    }
     if(root->h < INFINITY)
     {
         open.push(root);
@@ -66,21 +70,21 @@ int astar(nodo root)
         if(closed.count(n->id) <= 0)
         {
             closed.emplace(n->id,n);
-            if(isGoal(n))
-            {
-                imprimeNodo(n);
-                int count = extractPath(n);
-                printf("Comprimento: %d\n", count);
-                printf("Nodos Gerados: %d\n", gen);
-                printf("Nodos Expandidos: %d", exp);
-                return 0;
-            }
             for(int i=0; i<4; i++)
             {
                 nodo nLinha = move(n,i);
                 if(nLinha != NULL)
                 {
                     gen++;
+                    if(isGoal(nLinha))
+                    {
+                        imprimeNodo(n);
+                        int count = extractPath(n);
+                        printf("Comprimento: %d\n", count);
+                        printf("Nodos Gerados: %d\n", gen);
+                        printf("Nodos Expandidos: %d", exp);
+                        return 1;
+                    }
                     if(nLinha->h < INFINITY)
                     {
                         open.push(nLinha);

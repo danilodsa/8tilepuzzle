@@ -7,16 +7,16 @@
 
 using namespace std;
 
-nodo CriaInicial(int state[15])
+nodo CriaInicial(int state[16])
 {
     nodo ini = (nodo) malloc(sizeof(struct Nodo));
     
     if(ini != NULL)
     {
         /*copia pai pro filho*/
-        memcpy(ini->estado, state, sizeof(int) * 15);
+        memcpy(ini->estado, state, sizeof(int) * 16);
         
-        ini->id = calcId(state);
+        ini->id = calcId(ini->estado);
         ini->filhos[0] = NULL;
         ini->filhos[1] = NULL;
         ini->filhos[2] = NULL;
@@ -35,7 +35,7 @@ nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho)//p1 e p2 devem tro
 	nodo novo = (nodo) malloc(sizeof(struct Nodo));
         if(novo != NULL)
         {
-            memcpy(novo->estado, pai->estado, sizeof(int) * 9);
+            memcpy(novo->estado, pai->estado, sizeof(int) * 16);
             //troca posições
             int aux = novo->estado[pos]; 
             novo->estado[pos] = novo->estado[posAux];
@@ -56,9 +56,9 @@ nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho)//p1 e p2 devem tro
 int isGoal(nodo n)
 {
     
-    int goal[15] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+    int goal[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
     
-    for(int i=0; i<9; i++)
+    for(int i=0; i<16; i++)
     {
         if (n->estado[i] != goal[i])
         {
@@ -69,15 +69,15 @@ int isGoal(nodo n)
 }
 
 /*Calcula ID do nodo atraves do estado*/
-int calcId(int state[15])
+long unsigned int calcId(int state[16])
 {
-    int soma = 0;
-    int multiplier;
+    long unsigned int soma = 0;
+    long unsigned int multiplier;
     
-    for(int i=0;i<15;i++)
+    for(int i=0;i<16;i++)
     {
         multiplier = 1;
-        for (int j=i+1; j<15; j++)
+        for (int j=i+1; j<16; j++)
         {
             multiplier *= 10;
         }
@@ -89,18 +89,17 @@ int calcId(int state[15])
 void imprimeNodo(nodo n)
 {
     //system("clear");
-    printf("\n\t%d %d %d\n", n->estado[0], n->estado[1], n->estado[2]);
-    printf("\t%d %d %d\n", n->estado[3], n->estado[4], n->estado[5]);
-    printf("\t%d %d %d\n\n", n->estado[6], n->estado[7], n->estado[8]);
-    printf("\t%d %d %d\n\n", n->estado[9], n->estado[10], n->estado[11]);
-    printf("\t%d %d %d\n\n", n->estado[12], n->estado[13], n->estado[14]);
+    printf("\n\t%d %d %d %d\n", n->estado[0], n->estado[1], n->estado[2], n->estado[3]);
+    printf("\n\t%d %d %d %d\n", n->estado[4], n->estado[5], n->estado[6], n->estado[7]);
+    printf("\n\t%d %d %d %d\n", n->estado[8], n->estado[9], n->estado[10], n->estado[11]);
+    printf("\n\t%d %d %d %d\n", n->estado[12], n->estado[13], n->estado[14], n->estado[15]);
 
 }
 
 //faz um for até encontrar o blank
 int verificaPosicaoBlank(nodo atual)
 {
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < 16; i++)
     {
         if (atual->estado[i] == 0)
         {
@@ -118,15 +117,15 @@ nodo move(nodo pai, int opc)
     int posAux;
     if (opc == 0) //w
     {
-        if (pos >= 3)//se é maior que 2 pode mover para cima
+        if (pos >= 4)//se é maior que 2 pode mover para cima
         {
-            posAux = pos - 3;
+            posAux = pos - 4;
             atual = CriaNodoFilho(pai, pos, posAux,0);
         }
     }
     else if (opc == 1) //a
     {
-        if (pos % 3 != 0)//se o resto de divisão por 3 é zero então está na lateral esquerda
+        if (pos % 4 != 0)//se o resto de divisão por 4 é zero então está na lateral esquerda
         {
             posAux = pos - 1;
             atual = CriaNodoFilho(pai, pos, posAux,1);
@@ -134,7 +133,7 @@ nodo move(nodo pai, int opc)
     }
     else if (opc == 2) //d
     {
-        if (pos % 3 != 2)//se o resto de divisão por 3 é 2 então está na lateral direita
+        if (pos % 4 != 3)//se o resto de divisão por 3 é 2 então está na lateral direita
         {
             posAux = pos + 1;
             atual = CriaNodoFilho(pai, pos, posAux,2);
@@ -142,9 +141,9 @@ nodo move(nodo pai, int opc)
     }
     else if (opc == 3) //s
     {
-        if (pos <= 5)//se é menor que 6 pode mover pra baixo
+        if (pos <= 11)//se é menor que 6 pode mover pra baixo
         {
-            posAux = pos + 3;
+            posAux = pos + 4;
             atual = CriaNodoFilho(pai, pos, posAux,3);
         }
     }
@@ -167,14 +166,14 @@ int extractPath(nodo n)
 /***********************HEURISICA***********************/
 int manhattanElementoUnico(int num, int pos)
 {
-	return (abs(num / 3 - pos / 3) + abs(num % 3 - pos % 3));
+	return (abs(num / 4 - pos / 4) + abs(num % 4 - pos % 4));
 	//printf("%d, %d, resultado:%d\n", num+1, pos+1, x);
 }
 
-int manhattan(int vet[9])
+int manhattan(int vet[16])
 {
 	int soma = 0;
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 16; i++)
 		if (vet[i] != 0)
 			soma += manhattanElementoUnico(vet[i], i);
 	return soma;
