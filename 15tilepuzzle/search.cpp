@@ -53,7 +53,6 @@ void relFinaliza(relat rel, nodo final)
     relCalculaVMedio(rel, final);
     rel->comp--;//desconsiderando o pai do caminho
     int x = extractPath(final);
-    printf("_#_%d\n",x);
     rel->vMedio = rel->vMedio/rel->comp;
     
     //imprime relatório
