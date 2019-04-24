@@ -55,6 +55,7 @@ int astar(nodo root)
     /**************/    
     if(isGoal(root))
     {
+        /*IMPRIMIR dados*/
         return 1;
     }
     if(root->h < INFINITY)
@@ -76,9 +77,7 @@ int astar(nodo root)
                 {
                     if(isGoal(nLinha))
                     {
-                        int count = extractPath(nLinha);
-                        printf("Comprimento: %d\n", count);
-                        printf("Nodos Expandidos: %d", exp);
+                        /*IMPRIMIR dados*/
                         return 1;
                     }
                     if(nLinha->h < INFINITY)
