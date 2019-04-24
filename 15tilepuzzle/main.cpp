@@ -25,10 +25,29 @@ using namespace std;
  */
 int main(int argc, char** argv) 
 {
-    //12,9,0,6,8,3,5,14,2,4,11,7,10,1,15,13
-    int initialState[16] = {1,0,2,3,4,5,6,7,8,9,10,11,12,13,14,15}; //Estado inicial
-    nodo inicial = CriaInicial(initialState);//cria o inicial
-    astar(inicial) == 1 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
-    return 0;
+    //int initialState[16] = {7,11,8,3,14,0,6,15,1,4,13,9,5,12,2,10}; //Estado inicial
+    int initialState[16] = {12,9,0,6,8,3,5,14,2,4,11,7,10,1,15,13}; //Estado inicial
+    //int initialState[16] = {13,0,9,12,11,6,3,5,15,8,1,10,4,14,2,7}; //Estado inicial
+    
+    
+    
+  /*Leitura de entradas*/
+    char* metodo = argv[1];
+    
+    int i=2;
+    int j;
+    while(i<argc)
+    {
+        j=0;
+        while(j<16)
+        {
+            initialState[j] = atoi(argv[i]);
+            j++;
+            i++;
+        }    
+        nodo inicial = CriaInicial(initialState);//cria o inicial
+        astar(inicial) == 1 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
+    }
+        return 0;
 }
 

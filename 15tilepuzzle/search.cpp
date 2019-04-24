@@ -46,7 +46,6 @@ public:
 int astar(nodo root)
 {
     
-    int gen = 0;
     int exp = 0;
     /*cria closed set*/
     unordered_map<int,nodo> closed;
@@ -75,13 +74,10 @@ int astar(nodo root)
                 nodo nLinha = move(n,i);
                 if(nLinha != NULL)
                 {
-                    gen++;
                     if(isGoal(nLinha))
                     {
-                        imprimeNodo(n);
-                        int count = extractPath(n);
+                        int count = extractPath(nLinha);
                         printf("Comprimento: %d\n", count);
-                        printf("Nodos Gerados: %d\n", gen);
                         printf("Nodos Expandidos: %d", exp);
                         return 1;
                     }

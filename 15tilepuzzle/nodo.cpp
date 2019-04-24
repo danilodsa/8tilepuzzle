@@ -152,15 +152,16 @@ nodo move(nodo pai, int opc)
     return atual;
 }
 
+/*Contagem do caminho*/
 int extractPath(nodo n)
 {
-    int count = 0;
+    int pathLen = 0;
     while(n->pai != NULL)
     {
-        count++;
+        pathLen++;
         n = n->pai;
     }
-    return count;
+    return pathLen;
 }
 
 
