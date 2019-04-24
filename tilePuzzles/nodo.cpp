@@ -16,6 +16,7 @@ nodo CriaInicial(int state[9])
         /*copia pai clock_t start = clock();pro filho*/
         memcpy(ini->estado, state, sizeof(int) * 9);
         
+        ini->pai=NULL;
         ini->id = calcId(state);
         ini->filhos[0] = NULL;
         ini->filhos[1] = NULL;
@@ -46,7 +47,7 @@ nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho)//p1 e p2 devem tro
             novo->id = calcId(novo->estado);
             
             novo->h = manhattan(novo->estado);
-            novo->g = novo->pai->g + 1;
+            novo->g = pai->g + 1;
             
             return novo;
         }
@@ -165,15 +166,15 @@ int extractPath(nodo n)
 /***********************HEURISICA***********************/
 int manhattanElementoUnico(int num, int pos)
 {
-	return (abs(num / 3 - pos / 3) + abs(num % 3 - pos % 3));
-	//printf("%d, %d, resultado:%d\n", num+1, pos+1, x);
+    return (abs(num / 3 - pos / 3) + abs(num % 3 - pos % 3));
+    //printf("%d, %d, resultado:%d\n", num+1, pos+1, x);
 }
 
 int manhattan(int vet[9])
 {
-	int soma = 0;
-	for (int i = 0; i < 9; i++)
-		if (vet[i] != 0)
-			soma += manhattanElementoUnico(vet[i], i);
-	return soma;
+    int soma = 0;
+    for (int i = 0; i < 9; i++)
+    	if (vet[i] != 0)
+            soma += manhattanElementoUnico(vet[i], i);
+    return soma;
 }
