@@ -17,6 +17,7 @@ nodo CriaInicial(int state[16])
         memcpy(ini->estado, state, sizeof(int) * 16);
         
         ini->id = calcId(ini->estado);
+        ini->pai = NULL;
         ini->filhos[0] = NULL;
         ini->filhos[1] = NULL;
         ini->filhos[2] = NULL;
@@ -40,13 +41,14 @@ nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho)//p1 e p2 devem tro
             int aux = novo->estado[pos]; 
             novo->estado[pos] = novo->estado[posAux];
             novo->estado[posAux] = aux;
+            
             novo->pai = pai;    
             pai->filhos[nFilho] = novo;
 
             novo->id = calcId(novo->estado);
             
             novo->h = manhattan(novo->estado);
-            novo->g = novo->pai->g + 1;
+            novo->g = pai->g + 1;
             
             return novo;
         }

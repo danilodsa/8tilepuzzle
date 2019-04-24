@@ -28,16 +28,16 @@ public:
         int rhsF = rhs->g + rhs->h;
 
         if(lhsF > rhsF){
-            return 0;
+            return 1;
         }
         else if(lhsF < rhsF){
-            return 1;
-        }
-        else if(lhs->h > rhs->h){
             return 0;
         }
-        else{
+        else if(lhs->h > rhs->h){
             return 1;
+        }
+        else{
+            return 0;
         }      
   }
 };
@@ -95,6 +95,7 @@ int astar(nodo root)
         }
                 
     }
+    return 0;
     
 }
 
