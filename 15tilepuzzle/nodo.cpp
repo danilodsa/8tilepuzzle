@@ -41,6 +41,10 @@ nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho)//p1 e p2 devem tro
             int aux = novo->estado[pos]; 
             novo->estado[pos] = novo->estado[posAux];
             novo->estado[posAux] = aux;
+            novo->filhos[0] = NULL;
+            novo->filhos[1] = NULL;
+            novo->filhos[2] = NULL;
+            novo->filhos[3] = NULL;            
             
             novo->pai = pai;    
             pai->filhos[nFilho] = novo;
@@ -92,9 +96,9 @@ void imprimeNodo(nodo n)
 {
     //system("clear");
     printf("\n\t%d %d %d %d\n", n->estado[0], n->estado[1], n->estado[2], n->estado[3]);
-    printf("\n\t%d %d %d %d\n", n->estado[4], n->estado[5], n->estado[6], n->estado[7]);
-    printf("\n\t%d %d %d %d\n", n->estado[8], n->estado[9], n->estado[10], n->estado[11]);
-    printf("\n\t%d %d %d %d\n", n->estado[12], n->estado[13], n->estado[14], n->estado[15]);
+    printf("\t%d %d %d %d\n", n->estado[4], n->estado[5], n->estado[6], n->estado[7]);
+    printf("\t%d %d %d %d\n", n->estado[8], n->estado[9], n->estado[10], n->estado[11]);
+    printf("\t%d %d %d %d\n", n->estado[12], n->estado[13], n->estado[14], n->estado[15]);
 
 }
 
@@ -190,6 +194,5 @@ void destruct(nodo n)
     {
         destruct(n->filhos[i]);
     }
-    
     free(n);
 }
