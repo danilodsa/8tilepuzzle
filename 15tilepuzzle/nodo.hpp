@@ -33,6 +33,7 @@ int isGoal(nodo n);
 nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho);
 nodo CriaInicial(int state[16]);
 int manhattan(int vet[16]);
+int linearConflict(int vet[16]);
 int extractPath(nodo n);
 void destruct(nodo n);
 #endif /* NEWFILE_HPP */

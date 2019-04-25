@@ -22,7 +22,8 @@ nodo CriaInicial(int state[9])
         ini->filhos[1] = NULL;
         ini->filhos[2] = NULL;
         ini->filhos[3] = NULL;
-        ini->h = manhattan(state);
+        //ini->h = manhattan(state);
+        ini->h = linearConflict(state);
         ini->g = 0;
         return ini;
     }
@@ -46,7 +47,8 @@ nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho)//p1 e p2 devem tro
 
             novo->id = calcId(novo->estado);
             
-            novo->h = manhattan(novo->estado);
+            //novo->h = manhattan(novo->estado);
+            novo->h = linearConflict(novo->estado);
             novo->g = pai->g + 1;
             
             return novo;
@@ -177,4 +179,57 @@ int manhattan(int vet[9])
     	if (vet[i] != 0)
             soma += manhattanElementoUnico(vet[i], i);
     return soma;
+}
+
+int linearConflict(int vet[9])
+{
+	int laux[9];
+	int caux[9];
+	int l, c, lpos, cpos;
+	int soma = 0;
+	for (int i = 0; i < 9; i++)
+	{
+		if (vet[i] == 0)
+		{
+			laux[i] = 0;
+			caux[i] = 0;
+		}
+		else
+		{
+			l = i / 3;
+			c = i % 3;
+			lpos = vet[i] / 3;
+			cpos = vet[i] % 3;
+			laux[i] = abs(l - lpos);
+			caux[i] = abs(c - cpos);
+			soma += laux[i] + caux[i];
+			//printf("l:%d,c:%d,val:%d,lpos:%d,cpos:%d\n", l, c, vet[i], lpos, cpos);
+			//for verificando conflitos na linha
+			if (laux[i] != 0 && caux[i] == 0)
+			{
+				for (int k = 1; k < 3 && (i - k * 3) > 0; k++)
+				{
+//					printf("-@@@%d %d %d %d\n", i, i - k * 3, vet[i], vet[i - k * 3]);
+					if (laux[i - k * 3] != 0 && caux[i - k * 3] == 0)
+					{
+//						printf("@@@%d %d %d %d\n", i, i - k * 3, vet[i], vet[i - k * 3]);
+						soma += 2;
+					}
+				}
+			}
+			//verificando conflitos na coluna
+			else if (laux[i] == 0 && caux[i] != 0)
+			{
+				for (int k = 1; k < 3 && (i - k)>0; k++)
+				{
+					if (laux[i - k] == 0 && caux[i - k] != 0)
+					{
+						//printf("@@@%d %d %d %d", i, i - k * 3, vet[i], vet[i - k]);
+						soma += 2;
+					}
+				}
+			}
+		}
+	}
+	return soma;
 }
