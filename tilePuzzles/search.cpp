@@ -53,12 +53,11 @@ void relFinaliza(relat rel, nodo final)
     relCalculaVMedio(rel, final);
     rel->comp--;//desconsiderando o pai do caminho
     int x = extractPath(final);
-    printf("_#_%d\n",x);
     rel->vMedio = rel->vMedio/rel->comp;
     
     //imprime relatório
-    printf("___e:%d, c:%d, t:%f, vm:%d, hi:%d\n", rel->exp, rel->comp, rel->tempo, rel->vMedio, rel->hIni);
-    //printf("%d, %d, %f, %d, %d", rel->exp, rel->comp, rel->tempo, rel->vMedio, rel->hIni);
+    //printf("___e:%d\t c:%d\t t:%f\t vm:%f\t hi:%d\n", rel->exp, rel->comp, rel->tempo, rel->vMedio, rel->hIni);
+    printf("%d, %d, %f, %f, %d\n", rel->exp, rel->comp, rel->tempo, rel->vMedio, rel->hIni);
 }
 
 /**************************BFS******************************/
@@ -214,7 +213,12 @@ int astar(nodo root)
     /***********/
     /*cria open set*/
     priority_queue<nodo,vector<nodo>,compareForAStar> open;
-    /**************/    
+    /**************/ 
+    if(isGoal(root))
+    {
+        relFinaliza(rel, root);
+        return 1;
+    }    
     if(root->h < INFINITY)
     {
         open.push(root);
@@ -227,17 +231,17 @@ int astar(nodo root)
         if(closed.count(n->id) <= 0)
         {
             closed.emplace(n->id,n);
-            if(isGoal(n))
-            {
-                relFinaliza(rel, n);
-                return 1;
-            }
             rel->exp++;
             for(int i=0; i<4; i++)
             {
                 nodo nLinha = move(n,i);
                 if(nLinha != NULL)
                 {
+                    if(isGoal(nLinha))
+                    {
+                        relFinaliza(rel, nLinha);
+                        return 1;
+                    }                    
                     if(nLinha->h < INFINITY)
                     {
                         open.push(nLinha);
@@ -278,10 +282,9 @@ pair<int,int> idastar_recursive_search(nodo n,int fLimit, relat rel)
     {
         return make_pair(fn,0);
     }
-
+    /*Verifica se e GOAL*/
     if(isGoal(n))
     {
-        imprimeNodo(n);
         relFinaliza(rel, n);
         return make_pair(NULL,1);
     }
@@ -325,7 +328,8 @@ public:
 //    else return (lhs<rhs);
         if(lhs->h > rhs->h){
             return 1;
-        }else
+        }
+        else
         {
             return 0;
         }
@@ -365,7 +369,6 @@ int gbfs(nodo root)
                 {
                     if(isGoal(nLinha))
                     {
-                        imprimeNodo(nLinha);
                         relFinaliza(rel, nLinha);
                         return 1;
                     }

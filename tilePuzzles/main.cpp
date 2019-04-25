@@ -29,37 +29,65 @@ using namespace std;
 /*MAIN*/
 int main(int argc, char** argv)
 {
-   
+    /*Limita a execução a 10min e 8gb de ram*/
+    system("ulimit -t 600 && ulimit -v 8000000");
     int i = 2;
     int j;
-    //int initialState[9] = {1,2,3,4,0,5,6,7,8}; //Estado inicial
-    int initialState[9] = {0,6,1,7,4,2,3,8,5}; //Estado inicial
-    //int initialState[9] = {5,0,2,6,4,8,1,7,3}; //Estado inicial
-    //int initialState[9] = {2,4,7,0,3,6,8,1,5}; //Estado inicial
+
+    int initialState[9]; //Estado inicial
     
     /*Leitura de entradas*/
     char* metodo = argv[1];
  
-//    while(i<argc)
-//    {
-//        j=0;
-//        while(j<9)
-//        {
-//            initialState[j] = atoi(argv[i]);
-//            j++;
-//            i++;
-//        }
+    while(i<argc)
+    {
+        j=0;
+        while(j<9)
+        {
+            initialState[j] = atoi(argv[i]);
+            j++;
+            i++;
+        }
+        
         nodo inicial = CriaInicial(initialState);//cria o inicial
         /*Execucao do metodo(raiz)*/
-        printf("bfs\n");
-        bfsGraph(inicial) == 1 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
-        printf("idfs\n");
-        idfs(inicial) == 1 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
-        printf("astar\n");
-        astar(inicial) == 1 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
-        printf("idastar\n");
-        idastar(inicial) == 1 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
-        printf("gbfs\n");
-        gbfs(inicial) == 1 ? printf("\nSolucao Encontrada\n") : printf("\nSem Solucao\n");
-//    }
+
+        
+        
+        if (!strcmp(metodo, "-bfs"))
+        {
+            if(bfsGraph(inicial) != 1)
+            {
+                printf("\nSem Solucao\n");
+            }            
+        }
+        else if (!strcmp(metodo, "-idfs"))
+        {        
+            if(idfs(inicial) != 1)
+            {
+                printf("\nSem Solucao\n");
+            }            
+        }
+        else if (!strcmp(metodo, "-astar"))
+        {
+            if(astar(inicial) != 1)
+            {
+                printf("\nSem Solucao\n");
+            }
+        }
+        else if (!strcmp(metodo, "-idastar"))
+        {
+            if(idastar(inicial) != 1)
+            {
+                printf("\nSem Solucao\n");
+            }
+        }
+        else if (!strcmp(metodo, "-gbfs"))
+        {
+            if(gbfs(inicial) != 1)
+            {
+                printf("\nSem Solucao\n");
+            }            
+        }
+    }
 }
