@@ -56,8 +56,8 @@ void relFinaliza(relat rel, nodo final)
     rel->vMedio = rel->vMedio/rel->comp;
     
     //imprime relatório
-    printf("___e:%d\t c:%d\t t:%f\t vm:%d\t hi:%d\n", rel->exp, rel->comp, rel->tempo, rel->vMedio, rel->hIni);
-    //printf("%d, %d, %f, %d, %d", rel->exp, rel->comp, rel->tempo, rel->vMedio, rel->hIni);
+    //printf("___e:%d\t c:%d\t t:%f\t vm:%f\t hi:%d\n", rel->exp, rel->comp, rel->tempo, rel->vMedio, rel->hIni);
+    printf("%d, %d, %f, %f, %d\n", rel->exp, rel->comp, rel->tempo, rel->vMedio, rel->hIni);
 }
 
 /**************************ASTAR******************************/
@@ -103,6 +103,7 @@ int astar(nodo root)
     if(isGoal(root))
     {
         relFinaliza(rel, root);
+        destruct(root);
         return 1;
     }
     if(root->h < INFINITY)
@@ -111,6 +112,7 @@ int astar(nodo root)
     }
     while(!open.empty())
     {
+        /*Remove nodo de open*/
         nodo n = open.top();
         open.pop();
         
@@ -127,6 +129,7 @@ int astar(nodo root)
                     {
                         /*IMPRIMIR dados*/
                         relFinaliza(rel, nLinha);
+                        destruct(root);
                         return 1;
                     }
                     if(nLinha->h < INFINITY)
@@ -138,6 +141,7 @@ int astar(nodo root)
         }
                 
     }
+    destruct(root);
     return 0;
     
 }

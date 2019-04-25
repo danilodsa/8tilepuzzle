@@ -181,3 +181,15 @@ int manhattan(int vet[16])
 			soma += manhattanElementoUnico(vet[i], i);
 	return soma;
 }
+
+void destruct(nodo n)
+{
+    if(n == NULL) return;
+    
+    for(int i=0; i<4; i++)
+    {
+        destruct(n->filhos[i]);
+    }
+    
+    free(n);
+}

@@ -25,8 +25,11 @@ using namespace std;
  */
 int main(int argc, char** argv) 
 {
-    int initialState[16];
-    
+    int initialState[16] = {13,0,9,12,11,6,3,5,15,8,1,10,4,14,2,7};
+    //int initialState[16] = {1,2,3,4,0,5,6,7,8,9,10,11,12,13,14,15};
+    nodo inicial = CriaInicial(initialState);
+    astar(inicial);
+    exit(1);
   /*Leitura de entradas*/
     int i=2;
     int j;
@@ -40,6 +43,7 @@ int main(int argc, char** argv)
             i++;
         }    
         nodo inicial = CriaInicial(initialState);//cria o inicial
+        system("ulimit -v 4000");
         if(astar(inicial) == 0)
         {
             printf("Sem solução.");

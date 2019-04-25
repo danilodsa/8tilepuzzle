@@ -21,7 +21,7 @@ struct Relatorio
     int exp;
     int comp;
     double tempo;
-    int vMedio;
+    float vMedio;
     int hIni;
     double start;
     double end;
