@@ -22,7 +22,8 @@ nodo CriaInicial(int state[16])
         ini->filhos[1] = NULL;
         ini->filhos[2] = NULL;
         ini->filhos[3] = NULL;
-        ini->h = linearConflict(state);
+        ini->h = manhattan(state);
+        //ini->h = linearConflict(state);
         ini->g = 0;
         return ini;
     }
@@ -51,7 +52,8 @@ nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho)//p1 e p2 devem tro
 
             novo->id = calcId(novo->estado);
             
-            novo->h = linearConflict(novo->estado);
+            novo->h = manhattan(novo->estado);
+            //novo->h = linearConflict(novo->estado);
             novo->g = pai->g + 1;
             
             return novo;
