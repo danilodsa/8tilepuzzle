@@ -22,8 +22,8 @@ nodo CriaInicial(int state[16])
         ini->filhos[1] = NULL;
         ini->filhos[2] = NULL;
         ini->filhos[3] = NULL;
-        ini->h = manhattan(state);
-        //ini->h = linearConflict(state);
+        //ini->h = manhattan(state);
+        ini->h = linearConflict(state);
         ini->g = 0;
         return ini;
     }
@@ -52,8 +52,8 @@ nodo CriaNodoFilho(nodo pai, int pos, int posAux, int nFilho)//p1 e p2 devem tro
 
             novo->id = calcId(novo->estado);
             
-            novo->h = manhattan(novo->estado);
-            //novo->h = linearConflict(novo->estado);
+            //novo->h = manhattan(novo->estado);
+            novo->h = linearConflict(novo->estado);
             novo->g = pai->g + 1;
             
             return novo;
@@ -210,16 +210,17 @@ int linearConflict(int vet[16])
 			laux[i] = abs(l - lpos);
 			caux[i] = abs(c - cpos);
 			soma += laux[i] + caux[i];
+                            
 			//printf("l:%d,c:%d,val:%d,lpos:%d,cpos:%d\n", l, c, vet[i], lpos, cpos);
 			//for verificando conflitos na linha
 			if (laux[i] != 0 && caux[i] == 0)
 			{
 				for (int k = 1; k < 4 && (i - k * 4) > 0; k++)
 				{
-//					printf("-@@@%d %d %d %d\n", i, i - k * 3, vet[i], vet[i - k * 3]);
+					//printf("-@@@%d %d %d %d\n", i, i - k * 4, vet[i], vet[i - k * 4]);
 					if (laux[i - k * 4] != 0 && caux[i - k * 4] == 0)
 					{
-//						printf("@@@%d %d %d %d\n", i, i - k * 3, vet[i], vet[i - k * 3]);
+						//printf("___%d %d %d %d\n", i, i - k * 4, vet[i], vet[i - k * 4]);
 						soma += 2;
 					}
 				}
@@ -227,17 +228,30 @@ int linearConflict(int vet[16])
 			//verificando conflitos na coluna
 			else if (laux[i] == 0 && caux[i] != 0)
 			{
-				for (int k = 1; k < 4 && (i - k)>0; k++)
+				for (int k = 1; k < 4 && (c - k)>0; k++)
 				{
+                                        //printf("-@@@%d %d %d %d\n", i, i - k * 4, vet[i], vet[i - k * 4]);
 					if (laux[i - k] == 0 && caux[i - k] != 0)
 					{
-						//printf("@@@%d %d %d %d", i, i - k * 3, vet[i], vet[i - k]);
+						//printf("@@@pos:%d pos2:%d num:%d num2:%d\n", i, i - k, vet[i], vet[i - k]);
 						soma += 2;
 					}
 				}
 			}
 		}
 	}
+//        for(int i=0;i<16;i++)
+//        {
+//            printf("%d ",laux[i]);
+//            if(i%4==3)
+//                printf("\n");
+//        }
+//        for(int i=0;i<16;i++)
+//        {
+//            printf("%d ",caux[i]);
+//            if(i%4==3)
+//                printf("\n");
+//        }
 	return soma;
 }
 
